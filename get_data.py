@@ -105,6 +105,7 @@ for page in pages:
     try:
         get_paper_links(page)
     except:
+        print('sleep')
         sleep(5)
     else:
         pass
