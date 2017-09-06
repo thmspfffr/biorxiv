@@ -59,12 +59,16 @@ def get_metrics(url):
     views = metrics.findAll("td")
 
     if len(views) > 5:
-        abstract = 0
-        pdf = 0
+        
+        abstract = 0; pdf = 0; abstract_first = 0; pdf_first = 0
+
         for iview in range(0,len(views)):
 
-            if iview % 3 == 0:
+            if iview % 3 == 0 and iview != 9:
                 continue
+            elif iview == 9:
+                abstract_first = abstract
+                pdf_first = pdf
             elif iview % 3 == 1:
                 s = str(views[iview])
                 s = s.split('>')[1]
@@ -79,11 +83,14 @@ def get_metrics(url):
     elif (len(views) < 5) and (len(views) >= 3):
         abstract = int(views[1].text)
         pdf = int(views[2].text)
-
+        abstract_first = abstract
+        pdf_first = pdf
     else:
 
         abstract = "NA"
         pdf = "NA" 
+        abstract_first = "NA"
+        pdf_first = "NA"
 
     #versions = info.findAll("ul", "issue-toc-list")
     publication_date = (url.split("/")[5:8])
@@ -91,4 +98,4 @@ def get_metrics(url):
     # compute age of article in days
     age = int((time.time()-time.mktime(current_date.timetuple()))/(3600*24))
 
-    return [abstract, pdf, age]
+    return [abstract, pdf, age, abstract_first, pdf_first]
