@@ -1,9 +1,12 @@
 
 from bs4 import BeautifulSoup
 import requests
+from fake_useragent import UserAgent
 #from time import sleep
 
 def make_soup(url):
+    #ua = UserAgent()
+    #headers = str(ua.chrome)
     r = requests.get(url)
     soup = BeautifulSoup(r.text, 'lxml')
     return soup
@@ -31,20 +34,35 @@ def get_citations(url):
     #info = make_soup(url + ".article-info")
     text = text.find_all("a")
 
-    for itext in range(0,len(text)):
+    if len(text)<4:
 
-        tmp_text = str(text[itext])
+        a=str(text[0])
 
-        if tmp_text.find('Cited by ') >= 0:
+        # indicates google time out due to too many requests
+        # find more permanent solution
+        
+        if a.find('Why did this happen?')>0:
 
-            tmp_text = tmp_text.split('Cited by ')[1]
+            citations = 9999
 
-            citations = int(tmp_text.split('<')[0])
+            return citations
 
-            break
+    else:
 
-        else:
+        for itext in range(0,len(text)):
 
-            citations = 0
+            tmp_text = str(text[itext])
+
+            if tmp_text.find('Cited by ') >= 0:
+
+                tmp_text = tmp_text.split('Cited by ')[1]
+
+                citations = int(tmp_text.split('<')[0])
+
+                break
+
+            else:
+
+                citations = 0
    
-    return citations
+        return citations
