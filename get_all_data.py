@@ -31,10 +31,11 @@ if platform == "darwin":
         data_to_write = open('biorxiv_metrics.txt','w')
         data_to_write.close()
 
-elif platform == "linux" or platform == "linux2":
-    inp = 'o'
-elif platform == "win32":
-    inp = 'o'
+else:
+    os.remove('biorxiv_metrics.txt')
+    data_to_write = open('biorxiv_metrics.txt','w')
+    data_to_write.close()
+
 
 #try:
 for ipage in range(0,1500):
