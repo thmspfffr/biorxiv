@@ -9,7 +9,6 @@ from time import sleep
 count = 0
 inp = []
 
-
 if platform == "darwin":
 
     if os.path.isfile('biorxiv_metrics.txt'):
@@ -37,34 +36,31 @@ else:
     data_to_write = open('biorxiv_metrics.txt','w')
     data_to_write.close()
 
-for ipage in range(1000,1500):
+num_of_pages = gm.get_num_pages()
 
-    sleep(2)
+for ipage in range(1000,num_of_pages):
 
-    print("Browsing page %d ..." % ipage)
+    percent_done = 100*(ipage+1)/(num_of_pages+1)
+
+    print('%0.2f%% done' % percent_done,'\r')
+
+    sleep(10)
 
     all_papers = gm.get_paper_links("http://www.biorxiv.org/content/early/recent?page=%d" % ipage)
-
+    
     for ipapers in range(0,len(all_papers)-1):
 
         #try:
         
-        print("Browsing through paper #%d ..." % (ipapers+1))
+        #print("Browsing through paper #%d ..." % (ipapers+1))
 
         url = "http://www.biorxiv.org" + all_papers[ipapers]['link'] + ".article-metrics"
 
         metrics = gm.get_metrics(url)
 
-        #if metrics == 'NA':
-
-        #    url = "http://www.biorxiv.org" + all_papers[ipapers]['link'] + ".article-metrics"
-            
-        #    metrics = gm.get_metrics(url)[1]
-
         if (metrics[0] == 'NA') and (metrics[1] == 'NA'):
             continue
         else:
-            print("Information found!")
             count = count + 1
             pass
 
@@ -73,11 +69,11 @@ for ipage in range(1000,1500):
         url = scholar.get_scholar_link(title)
 
         # pretend to be human
-        dummy = scholar.get_citations("http://scholar.google.com") 
+        dummy = scholar.do_nonesense() 
 
         citations = scholar.get_citations(url) 
 
-        sleep(1)
+        sleep(3)
 
         #df = pd.DataFrame(np.array([1,2,3])[np.newaxis],index=[1],
         #columns=['a','b','c'])      
@@ -86,10 +82,6 @@ for ipage in range(1000,1500):
         data_to_write = open('biorxiv_metrics.txt','a')
         data_to_write.write('%d \t %d \t %d \t %d \t %d \t %d \t %d\n' % (ipage, metrics[2], metrics[0], metrics[1],metrics[3],metrics[4], citations))
         data_to_write.close()
-
-        #except:
-    
-        #    print("Some error occured")
 
 
 
