@@ -39,6 +39,8 @@ else:
 
 for ipage in range(1000,1500):
 
+    sleep(2)
+
     print("Browsing page %d ..." % ipage)
 
     all_papers = gm.get_paper_links("http://www.biorxiv.org/content/early/recent?page=%d" % ipage)
@@ -69,6 +71,9 @@ for ipage in range(1000,1500):
         title = gm.get_title(url)
 
         url = scholar.get_scholar_link(title)
+
+        # pretend to be human
+        dummy = scholar.get_citations("http://scholar.google.com") 
 
         citations = scholar.get_citations(url) 
 
