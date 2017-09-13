@@ -10,6 +10,24 @@ def make_soup(url):
     soup = BeautifulSoup(r.text, 'lxml')
     return soup
 
+def get_num_pages():
+    """
+    Gets the total number of pages
+    """
+    # Estimate total duration
+    url = "http://www.biorxiv.org/content/early/recent?page=1"
+    text = make_soup(url)
+    text = text.find_all('a')
+
+    for itext in range(0,len(text)):
+        txt = str(text[itext])
+        
+        if txt.find('Go to page') > 0:
+            tmp = txt.split()[5]
+            page_no = int(tmp.split('"')[0])
+            
+    return page_no
+
 def get_paper_links(url):
     """
     gets paper title and link for each paper on page
