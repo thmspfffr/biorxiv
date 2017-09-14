@@ -45,7 +45,7 @@ for ipage in range(1000,num_of_pages):
 
     print('%0.2f%% done' % percent_done,'\r')
 
-    sleep(random.randint(25,40))
+    sleep(random.randint(90,120))
 
     all_papers = gm.get_paper_links("http://www.biorxiv.org/content/early/recent?page=%d" % ipage)
     
@@ -70,11 +70,11 @@ for ipage in range(1000,num_of_pages):
         url = scholar.get_scholar_link(title)
 
         # pretend to be human
-        dummy = scholar.do_nonesense() 
+        #dummy = scholar.do_nonesense() 
 
         citations = scholar.get_citations(url) 
 
-        sleep(random.randint(8,13))
+        sleep(random.randint(5,30))
 
         #df = pd.DataFrame(np.array([1,2,3])[np.newaxis],index=[1],
         #columns=['a','b','c'])      
