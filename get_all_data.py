@@ -58,7 +58,6 @@ for ipage in range(1000,num_of_pages):
         url = "http://www.biorxiv.org" + all_papers[ipapers]['link'] + ".article-metrics"
 
         metrics = gm.get_metrics(url)
-
         if (metrics[0] == 'NA') and (metrics[1] == 'NA'):
             continue
         else:
@@ -70,7 +69,7 @@ for ipage in range(1000,num_of_pages):
         url = scholar.get_scholar_link(title)
 
         # pretend to be human
-        #dummy = scholar.do_nonesense() 
+        dummy = scholar.do_nonesense() 
 
         citations = scholar.get_citations(url) 
 
