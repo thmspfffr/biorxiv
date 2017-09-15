@@ -1,12 +1,12 @@
 
 from bs4 import BeautifulSoup
 import requests
-from fake_useragent import UserAgent
+#from fake_useragent import UserAgent
 import random
 #from time import sleep
 
 def make_soup(url):
-    ua = UserAgent()
+    #ua = UserAgent()
     headers = {"User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36"}
     r = requests.get(url,headers=headers)
     soup = BeautifulSoup(r.text, 'lxml')
@@ -15,7 +15,7 @@ def make_soup(url):
 def do_nonesense():
 
     # first request 
-    #make_soup("http://scholar.google.com")
+    make_soup("http://scholar.google.com")
     word_site = "http://svnweb.freebsd.org/csrg/share/dict/words?view=co&content-type=text/plain"
     response = requests.get(word_site)
     words = response.content.splitlines()
