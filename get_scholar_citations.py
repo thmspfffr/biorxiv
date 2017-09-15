@@ -73,7 +73,7 @@ def get_citations(url):
                 citations = int(tmp_text.split('<')[0])
 
                 break
-
+            
             else:
 
                 citations = 0
