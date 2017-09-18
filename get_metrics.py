@@ -10,6 +10,7 @@ def make_soup(url):
     soup = BeautifulSoup(r.text, 'lxml')
     return soup
 
+
 def get_num_pages():
     """
     Gets the total number of pages
