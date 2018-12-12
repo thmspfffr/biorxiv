@@ -7,9 +7,9 @@ import time
 
 def make_soup(url):
     r = requests.get(url)
-    soup = BeautifulSoup(r.text, 'lxml')
+    #soup = BeautifulSoup(r.text, 'lxml')
+    soup = BeautifulSoup(r.text,'html.parser')
     return soup
-
 
 def get_num_pages():
     """
@@ -65,6 +65,41 @@ def get_title(url):
     title = text.split('<')[0]
     
     return title
+
+def is_published(url,driver):
+    """
+    returns 1 if published
+    """
+    driver.get(url)
+    p = driver.find_element_by_class_name('pub_jnl')
+
+    if 'not been peer-reviewed' in p.text:
+        published = 0
+    elif 'Now published in':
+        published = 1
+    else:
+        published = 0
+
+    return published
+
+def get_citations(url,driver):
+    """
+    gets paper citations and doi 
+    """
+    driver.get(url)
+    p = driver.find_element_by_class_name('pub_jnl')
+
+    if 'not been peer-reviewed' in p.text:
+        doi = "NA"
+    elif 'Now published in':
+        doi = p.text[p.text.find('doi')+5:]
+        url_dimensions = "https://metrics-api.dimensions.ai/doi/" + doi
+        metrics_dimensions = requests.get(url_dimensions).json()
+        citations = metrics_dimensions['times_cited']
+    else:
+        doi = "NA"
+
+    return citations
 
 def get_metrics(url):
     """

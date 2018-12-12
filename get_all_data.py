@@ -6,7 +6,12 @@ import os
 from sys import platform
 from time import sleep
 import random
-#
+from selenium import webdriver
+
+options = webdriver.ChromeOptions()
+options.add_argument('headless')
+driver = webdriver.Chrome(chrome_options=options)
+
 count = 0
 inp = []
 
@@ -45,15 +50,13 @@ for ipage in range(1000,num_of_pages):
 
     print('%0.2f%% done' % percent_done,'\r')
 
-    sleep(random.randint(90,120))
-
     all_papers = gm.get_paper_links("http://www.biorxiv.org/content/early/recent?page=%d" % ipage)
     
     for ipapers in range(0,len(all_papers)-1):
 
         #try:
         
-        #print("Browsing through paper #%d ..." % (ipapers+1))
+        print("Browsing through paper #%d ..." % (ipapers+1))
 
         url = "http://www.biorxiv.org" + all_papers[ipapers]['link'] + ".article-metrics"
 
@@ -66,12 +69,7 @@ for ipage in range(1000,num_of_pages):
 
         title = gm.get_title(url)
 
-        url = scholar.get_scholar_link(title)
-
-        # pretend to be human
-        dummy = scholar.do_nonesense() 
-
-        citations = scholar.get_citations(url) 
+        citations = gm.get_citations(url,driver) 
 
         sleep(random.randint(5,30))
 

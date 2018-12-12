@@ -1,0 +1,13 @@
+import requests
+
+url = 'http://api.crossref.org/works?filter=orcid:0000-0003-1963-185X'
+url = 'https://api.crossref.org/works?query.author=peter+r+murphy'
+
+req = requests.get(url)
+
+
+
+
+req = requests.get(url)
+refs = req.json()['message']['reference']
+
